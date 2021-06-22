@@ -23,9 +23,3 @@ When your program is correctly configured, you'll just have to create a cron on 
 ### Warnings
 
 Be sure that you have the consent from the recepients of the emails before using the program.
-
-### TODO :
-
-- Select randomly the file from the data folder
-- Configure the .env to retrieve secure data from the env and not display them into the code
-- Add logger and registers logs into local file
