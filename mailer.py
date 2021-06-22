@@ -1,32 +1,37 @@
+import os
+import random
 import smtplib
 import ssl
 
+from dotenv import load_dotenv
 from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-subject = "########"  # TODO: Retrieve from env
-body = "########"  # TODO: Retrieve from env
-sender_email = "########"  # TODO: Retrieve from env"daily.goat.bot@gmail.com"
-receiver_email = "########"  # TODO: Retrieve from env"##########"
-password = "########"  # TODO: Retrieve from env
+# Load local environment
+basedir = os.path.abspath(os.path.dirname(__file__))
+load_dotenv(os.path.join(basedir, '.env'))
+
+sender_email = os.environ.get('MAIL_SENDER_EMAIL', '')
+password = os.environ.get('MAIL_SENDER_PASSWORD', '')
+receiver_email = os.environ.get('MAIL_RECIPIENTS_EMAILS', '').split(';')
 
 # Create a multipart message and set headers
 message = MIMEMultipart()
 message["From"] = sender_email
-message["To"] = receiver_email
-message["Subject"] = subject
-message["Bcc"] = receiver_email  # Recommended for mass emails
+message["Subject"] = os.environ.get('MAIL_SUBJECT', "")
+message["Bcc"] = ", ".join(receiver_email)
 
 # Add body to email
-message.attach(MIMEText(body, "plain"))
+message.attach(MIMEText(os.environ.get('MAIL_CONTENT', ""), "plain"))
 
-# TODO: retrieve randomly a file from the data folder
-filename = "data/1514.jpg"  # In same directory as script
+# Retrieve random file from folder data
+filename = random.choice(os.listdir('./data'))
+filepath = f"data/{filename}"  # In same directory as script
 
-# Open PDF file in binary mode
-with open(filename, "rb") as attachment:
+# Open file in binary mode
+with open(filepath, "rb") as attachment:
     # Add file as application/octet-stream
     # Email client can usually download this automatically as attachment
     part = MIMEBase("application", "octet-stream")
