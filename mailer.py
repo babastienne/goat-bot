@@ -9,26 +9,28 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+from mailing_list import RECIPIENTS
+
 # Load local environment
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, '.env'))
 
 sender_email = os.environ.get('MAIL_SENDER_EMAIL', '')
 password = os.environ.get('MAIL_SENDER_PASSWORD', '')
-receiver_email = os.environ.get('MAIL_RECIPIENTS_EMAILS', '').split(';')
+path_to_data = os.environ.get('PATH_TO_DATA_FOLDER', '')
 
 # Create a multipart message and set headers
 message = MIMEMultipart()
 message["From"] = sender_email
 message["Subject"] = os.environ.get('MAIL_SUBJECT', "")
-message["Bcc"] = ", ".join(receiver_email)
+message["Bcc"] = ", ".join(RECIPIENTS)
 
 # Add body to email
 message.attach(MIMEText(os.environ.get('MAIL_CONTENT', ""), "plain"))
 
 # Retrieve random file from folder data
-filename = random.choice(os.listdir('./data'))
-filepath = f"data/{filename}"  # In same directory as script
+filename = random.choice(os.listdir(path_to_data))
+filepath = f"{path_to_data}/{filename}"
 
 # Open file in binary mode
 with open(filepath, "rb") as attachment:
@@ -54,4 +56,4 @@ text = message.as_string()
 context = ssl.create_default_context()
 with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
     server.login(sender_email, password)
-    server.sendmail(sender_email, receiver_email, text)
+    server.sendmail(sender_email, RECIPIENTS, text)

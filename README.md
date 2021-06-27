@@ -16,7 +16,9 @@ Otherwise, the project itself is under the MIT License. You can reproduce, modif
 
 To be able to use this project, you'll need to configure some elements into a `.env` file. To do so rename the file `.env.dist` to `.env` and complete the required informations.
 
-You'll need to provide pictures to the program. To do so you should put your images in the `data` folder. Then, the program will select randomly a picture from this folder every day until the apocalypse.
+You should add the informations about your email recipients in the file "mailing_list.py".
+
+You'll need to provide pictures to the program. To do so you should put your images in the `data` folder. Then, the program will select randomly a picture from this folder every day until the apocalypse. If you're looking for goat pictures, you can use the pictures from the Mendeley Data program mentionned above.
 
 When your program is correctly configured, you'll just have to create a cron on your server in order for the program to run daily.
 
