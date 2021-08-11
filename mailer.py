@@ -18,6 +18,7 @@ load_dotenv(os.path.join(basedir, '.env'))
 sender_email = os.environ.get('MAIL_SENDER_EMAIL', '')
 password = os.environ.get('MAIL_SENDER_PASSWORD', '')
 path_to_data = os.environ.get('PATH_TO_DATA_FOLDER', '')
+path_to_used_data = os.environ.get('PATH_TO_OLD_DATA_FOLDER', '')
 
 # Create a multipart message and set headers
 message = MIMEMultipart()
@@ -57,3 +58,7 @@ context = ssl.create_default_context()
 with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
     server.login(sender_email, password)
     server.sendmail(sender_email, RECIPIENTS, text)
+
+# Move used picture to another folder to avoid using it again
+os.rename(f"{path_to_data}/{filename}", f"{path_to_used_data}/{filename}")
+
