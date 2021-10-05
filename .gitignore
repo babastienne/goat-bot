@@ -1,4 +1,5 @@
 /.env
 /env/
 /data/*
+/old/*
 __pycache__/*
