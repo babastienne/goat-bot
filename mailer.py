@@ -37,7 +37,7 @@ def create_mail(subject, content, recipients, path_to_data, sender_email, filena
     message = MIMEMultipart()
     message["From"] = sender_email
     message["Subject"] = subject
-    message["Bcc"] = ", ".join(recipients)
+    # message["Bcc"] = ", ".join(recipients)
 
     # Add body to email
     message.attach(MIMEText(content, "plain"))
